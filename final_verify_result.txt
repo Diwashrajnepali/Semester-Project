@@ -1,0 +1,3 @@
+Target URL: https://rc-epay.esewa.com.np/api/epay/main/v2/form
+Test (TXA-77893f) -> FAILED: Merchant Key Error
+  Response Snippet: {"error_message":"Unable to fetch merchant key.","code":0}

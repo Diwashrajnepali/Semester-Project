@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title%} Contact - Yatra Bus{% endblock title%} 
+{% block body%} 
+
+<div class="container mt-5">
+    <div class="byt"><mark
+                    style=" color:#5AAAA4;font-size:1.1em; background-color:transparent;"><h2 style="border: 2px solid #5AAAA4;
+                    border-radius: 10px;margin-right:20px; display:inline;padding:5px;margin-bottom:20px;"
+                    > Contact BusYatra</h2></mark>        
+            <div>
+<form method="post" action="/contact/">
+    {% csrf_token %}
+<div class="form-group mt-4">
+<label for="name">Name</label>
+<input type="text" class="form-control" id="name" name="name" aria-describedby="name">
+</div>
+<div class="form-group">
+<label for="email">Email address</label>
+<input type="email" class="form-control" id="email"  name="email" aria-describedby="emailHelp">
+<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. </small>
+</div>
+<div class="form-group">
+<label for="phone">Phone Number</label>
+<input type="phone" class="form-control" id="phone"  name="phone"> 
+</div>
+<div class="form-group">
+<label for="content">Describe your issue :</label>
+<textarea class="form-control" name="content" id="content"  cols="30" rows="3"> 
+    </textarea>
+</div>
+
+<button type="submit" class="btn btn-primary my-2 bt-lg" style="background:#5AAAA4;border:none">Submit</button>
+</form>
+</div>
+</div>
+</div>
+{% endblock body%}
+ 

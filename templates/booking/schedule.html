@@ -1,0 +1,505 @@
+ {% extends "base.html" %}
+{% block title%} Schedule - Yatra Bus{% endblock title%} 
+{%load static%}
+{% block body%} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Schedule - Yatra Bus</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .trip-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #104564;
+        }
+
+        .trip-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .trip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .station-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #104564;
+        }
+
+        .route-arrow {
+            font-size: 1.5rem;
+            color: #888;
+        }
+
+        .trip-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bus-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .bus-badge.ac {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .bus-badge.deluxe {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .bus-badge.normal {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
+        .seats-info {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .seats-available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .seats-limited {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .seats-full {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #104564;
+        }
+
+        .book-btn {
+            background: linear-gradient(135deg, #104564 0%, #1a6b99 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background: linear-gradient(135deg, #0d3850 0%, #155579 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 69, 100, 0.3);
+        }
+
+        .book-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .no-trips {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-trips-icon {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group-inline {
+            flex: 1;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-scheduled {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        @media (max-width: 768px) {
+            .trip-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .route-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .trip-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% comment %} <div class="nav">
+        <div class="logoname">
+            <img src="{% static 'img/logo.svg' %}" alt="logo.svg">
+            <span style="margin-left:10px;">Yatra Bus</span>
+        </div>
+        <div class="topcircle"></div>
+        <ul>
+            <a href="{% url 'home' %}">
+                <li>Home</li>
+            </a>
+            <a href="{% url 'schedule' %}">
+                <li>Schedule</li>
+            </a>
+            <a href="{% url 'booking' %}">
+                <li>Booking</li>
+            </a>
+            <a href="{% url 'contact' %}">
+                <li>Contact</li>
+            </a>
+            <li><button type="button" class="nav-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Log
+                    in</button></li>
+            <button type="button" class="nav-btn" style='background-color: #104564;' data-bs-toggle="modal"
+                data-bs-target="#signupModal">
+                SignUp
+            </button>
+        </ul>
+    </div> {% endcomment %}
+
+    <div class="schedule-container" style="margin-top: 100px;">
+        <h2 class="mb-4" style="color: #104564; font-weight: 700;">Bus Schedule</h2>
+
+        <!-- Date Filter Section -->
+        <div class="filter-section">
+            <form method="GET" class="filter-form">
+                <div class="form-group-inline">
+                    <label for="date" class="form-label">Filter by Date:</label>
+                    <input type="date" class="form-control" id="date" name="date" value="{{ date_query|default:'' }}">
+                </div>
+                <button type="submit" class="btn book-btn" style="white-space: nowrap;">
+                    🔍 Filter
+                </button>
+                {% if date_query %}
+                <a href="{% url 'schedule' %}" class="btn btn-secondary">
+                    Clear Filter
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Trips Listing -->
+        {% if trips %}
+        <div class="trips-list">
+            <p class="text-muted mb-3">
+                Showing {{ trips|length }} trip{{ trips|length|pluralize }}
+                {% if date_query %} for {{ date_query }}{% endif %}
+            </p>
+
+            {% for trip_info in trips %}
+            <div class="trip-card">
+                <div class="trip-header">
+                    <div class="route-info">
+                        <span class="station-name">{{ trip_info.source_name }}</span>
+                        <span class="route-arrow">→</span>
+                        <span class="station-name">{{ trip_info.dest_name }}</span>
+                    </div>
+                    <div>
+                        <span class="status-badge status-scheduled">{{ trip_info.trip.status }}</span>
+                    </div>
+                </div>
+
+                <div class="trip-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Bus Number</span>
+                        <span class="detail-value">{{ trip_info.trip.bus.plate_number }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Bus Type</span>
+                        <span
+                            class="bus-badge {% if trip_info.trip.bus.bus_type == 'AC' %}ac{% elif trip_info.trip.bus.bus_type == 'DELUXE' %}deluxe{% else %}normal{% endif %}">
+                            {{ trip_info.trip.bus.get_bus_type_display }}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value">{{ trip_info.trip.date|date:"M d, Y" }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Departure Time</span>
+                        <span class="detail-value">{{ trip_info.trip.departure_time|time:"h:i A" }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Arrival Time</span>
+                        <span class="detail-value">{{ trip_info.trip.arrival_time|time:"h:i A" }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Available Seats</span>
+                        {% if trip_info.available_seats > 10 %}
+                        <span class="seats-info seats-available">{{ trip_info.available_seats }} seats</span>
+                        {% elif trip_info.available_seats > 0 %}
+                        <span class="seats-info seats-limited">{{ trip_info.available_seats }} seats</span>
+                        {% else %}
+                        <span class="seats-info seats-full">FULL</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Base Price</span>
+                        <span class="price-tag">Rs. {{ trip_info.base_price }}</span>
+                    </div>
+
+                    <div class="detail-item" style="display: flex; align-items: end;">
+                        {% if trip_info.available_seats > 0 %}
+                        <a href="{% url 'book_seat' trip_info.trip.id trip_info.source_id trip_info.dest_id %}"
+                            class="book-btn text-white text-decoration-none">
+                            Book Now →
+                        </a>
+                        {% else %}
+                        <button class="book-btn" disabled>
+                            Fully Booked
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if trip_info.trip.bus.operator_name %}
+                <div class="mt-2">
+                    <small class="text-muted">Operated by: {{ trip_info.trip.bus.operator_name }}</small>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-trips">
+            <div class="no-trips-icon">🚌</div>
+            <h4 style="color: #666;">No Scheduled Trips Found</h4>
+            <p class="text-muted">
+                {% if date_query %}
+                No trips are scheduled for {{ date_query }}. Try selecting a different date.
+                {% else %}
+                There are currently no scheduled trips available.
+                {% endif %}
+            </p>
+            {% if date_query %}
+            <a href="{% url 'schedule' %}" class="btn book-btn mt-3">
+                View All Trips
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% comment %} <footer class="footer" style="margin-top: 60px;">
+        <table>
+            <tr style="color:white;">
+                <th>
+                    <div class="tdlogo"><img style="width: 50px;" src="{% static 'img/logo.svg' %}" alt="logo.svg">
+                        <span>Yatra Bus</span></td>
+                    </div>
+                <th>Quick Links</td>
+                <th>Supports</td>
+                <th>Contacts</td>
+            </tr>
+            <tr>
+                <td>Convenient and safe travel with Yatra Bus .</td>
+                <td>Home</td>
+                <td>Help Center</td>
+                <td>Email: support@yatrabus.com</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Schedules</td>
+                <td>FAQ</td>
+                <td>Phone:123-4567</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bookings</td>
+                <td>Terms of Service</td>
+                <td>24/7 Customer Support</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Contact</td>
+                <td>Privacy Policy</td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="copyright">
+            <div class="line"></div>
+            <div class="copy">© 2025 Yatra Bus. All rights reserved.</div>
+        </div>
+    </footer> {% endcomment %}
+
+    <!-- Login Modal (Bootstrap) -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login Here</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method='post'>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Enter your username">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Password</label>
+                            <input type="password" class="form-control" name="pass" placeholder="Enter your password">
+                        </div>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SignUp Modal (Bootstrap) -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">SignUp Here</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup" method='post'>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="username"
+                                placeholder="Choose a unique username">
+                        </div>
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="text" class="form-control" name="fname" placeholder="Enter Your First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" class="form-control" name="lname" placeholder="Enter Your Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" name="email" placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Choose a password</label>
+                            <input type="password" class="form-control" name="pass1" placeholder="Choose Your Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass2">Confirm Password</label>
+                            <input type="password" class="form-control" name="pass2"
+                                placeholder="Enter your password again">
+                        </div>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+{% endblock body %} 

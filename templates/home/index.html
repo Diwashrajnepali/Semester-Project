@@ -1,0 +1,200 @@
+ {% extends "base.html" %}
+{% block title%} Yatra Bus - Convient and Safe travel with Yatra Bus {% endblock title%} 
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatra Bus</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <script src="static/script.js"></script>
+</head>
+<body> {% block body%} 
+    {% block container%} 
+<body>
+    <div class="container">
+        {% comment %} <div class="nav">
+            <div class="logoname">
+                <img src="static/img/logo.svg" alt="logo.svg">
+                <span style="margin-left:10px;">Yatra Bus</span>
+            </div>
+            <div class="topcircle"></div>
+            <ul>
+                <a href="{% url 'home' %}"><li>Home</li></a>
+                <li>Schedule</li>
+                <a href="{% url 'booking' %}"><li>Booking</li></a>
+                <a href="{% url 'contact' %}"><li>Contact</li></a>
+                <button class="nav-btn">Log in</button>
+            </ul>
+        </div> {% endcomment %}
+        <div class="hero">
+            <div class="shadowcircle"></div>
+            <div class="byt">Book <mark
+                    style=" color:#9AE0D3;font-size:1.1em; background-color:transparent;">YOUR</mark> Ticket</div>
+            <div>
+                <h1>NOW</h1>
+            </div>
+            <div class="cst">Convient and Safe travel with Yatra Bus</div>
+            <div class="circle">
+                <img src="static/img/herobus.png" alt="">
+            </div>
+            <div class="rec">
+                <div class=" upper"></div>
+                <div class=" bellow"></div>
+            </div>
+        </div>
+    </div>
+    {% endblock container %} 
+    <div class="buttons">
+        <div>
+            <a href="{% url 'booking' %}" class="button-style">
+
+
+            <button class=" book">Book Ticket</button>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'schedule' %}" class="button-style">
+            <button class=" view">View Schedule</button>
+            </a>
+        </div>
+    </div>
+    <div class="lowercircle"></div>
+    <div class="mainspecialoffers">
+        <span class="h2">
+            <h2> Specialoffers </h2>
+        </span>
+        <div class="specialoffers">
+            <div class="offerscircle"></div>
+            <div class="lowerrightcircle"></div>
+            <div class="lines">
+                <div class="firstline">
+                    Get <mark style=" color:#98171E; background-color:transparent;">offers</mark> at <mark
+                        style=" color:yellow; background-color:transparent;">festivals</mark> & <mark
+                        style=" color:red; background-color:transparent;">Occasions</mark>
+                </div>
+                <div class="secondline">
+                    Convient and safe travel with Yatra Bus.
+                </div>
+            </div>
+            <div class="cards 1stcard">
+                <img src="static/img/dashainoffer.png" alt="">
+            </div>
+            <div class="cards 2ndcard">
+                <img src="static/img/teejoffer.png" alt="">
+            </div>
+            <div class="cards 3rdcard">
+                <img src="static/img/tiharoffer.png" alt="">
+            </div>
+            <div class="cards 1stcard">
+                <img src="static/img/dashainoffer.png" alt="">
+            </div>
+            <div class="cards 2ndcard">
+                <img src="static/img/teejoffer.png" alt="">
+            </div>
+            <div class="cards 3rdcard">
+                <img src="static/img/tiharoffer.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="faqs">
+            <div class="shadowcircle"></div>
+        <div class="faqbox">
+            <div class="faqheading">
+                <h2><span> Frequently Asked Questions.
+                    </span></h2>
+                <!-- <img src="static/img/downarrow.svg" alt=""> -->
+
+            </div>
+            <div class=" question">
+                <span> 1 .What Is BusBooking?</span>
+                <img src="static/img/downarrow.svg" alt="">
+
+            </div>
+            <div class=" question">
+                <span> 2. Do I Need To Register To Use BusBooking?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+            <div class=" question">
+                <span> 3. How Can I Make Payments?</span>
+                <img src="static/img/downarrow.svg" alt="">
+
+            </div>
+            <div class=" question">
+                <span> 4. How Will I Get Confirmation That My Ticket Purchased?</span>
+                <img src="static/img/downarrow.svg" alt="">
+
+            </div>
+            <div class=" question">
+                <span> 5. What Details Do I Need To Give At The Time Of Booking/Buying?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+            <div class=" question">
+                <span> 6. How do I contact customer service?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+            <div class=" question">
+                <span> 7. How many Bus Route are available?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+            <div class=" question">
+                <span> 8. What are main features of BusBooking?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+            <div class=" question">
+                <span> 9. What is your name?</span>
+                <img src="static/img/downarrow.svg" alt="">
+            </div>
+        </div>
+            <div class="faqslowercircle"></div>
+
+    </div>
+
+    {% comment %} <footer class="footer">
+        <table>
+            <tr style="color:white;">
+                <th>
+                    <div class="tdlogo"><img style="width: 50px;" src="static/img/logo.svg" alt="logo.svg">
+                <span>Yatra Bus</span></td></div>
+                <th>Quick Links</td>
+                <th>Supports</td>
+                <th>Contacts</td>
+            </tr>
+            <tr>
+                <td>Convenient and safe travel with  Yatra Bus .</td>
+                <td>Home</td>
+                <td>Help Center</td>
+                <td>Email: support@yatrabus.com</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Schedules</td>
+                <td>FAQ</td>
+                <td>Phone:123-4567</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bookings</td>
+                <td>Terms of Service</td>
+                <td>24/7 Customer Support</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Contact</td>
+                <td>Privacy Policy</td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="copyright">
+            <div class="line"></div>
+            <div class="copy">© 2025  Yatra Bus. All rights reserved.</div>
+        </div>
+    </footer> {% endcomment %}
+{% endblock body %}
+</body>
+
+
+</html>

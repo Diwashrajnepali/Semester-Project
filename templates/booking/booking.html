@@ -1,0 +1,126 @@
+ {% extends "base.html" %}
+{% block title%} Booking - Yatra Bus{% endblock title%} 
+{%load static%}
+{% block body%} 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body class="bookingbody">
+    {% comment %} <div class="nav">
+        <div class="logoname">
+            <img src="{% static 'img/logo.svg' %}" alt="logo.svg">
+            <span style="margin-left:10px;">Yatra Bus</span>
+        </div>
+        <div class="topcircle"></div>
+        <ul>
+            <a href="{% url 'home' %}">
+                <li>Home</li>
+            </a>
+            <a href="{% url 'schedule' %}">
+                <li>Schedule</li>
+            </a>
+            <a href="{% url 'booking' %}">
+                <li>Booking</li>
+            </a>
+            <a href="{% url 'contact' %}">
+                <li>Contact</li>
+            </a>
+            <button class="nav-btn">Log in</button>
+        </ul>
+    </div> {% endcomment %}
+    {% comment %} <div class="container mt-5 " style=" height:auto"> {% endcomment %}
+        <div class="card shadow p-4 mt-6" style=" margin-top:15px">
+            <h3 class="text-center mb-4">Book Your Bus Ticket</h3>
+            <form action="" method="GET">
+                <div class="row g-3">
+                    <!-- Source Station -->
+                    <div class="col-md-6">
+                        <label for="{{ form.source.id_for_label }}" class="form-label">From:</label>
+                        {{ form.source }}
+                        {% if form.source.errors %}
+                        <div class="text-danger small">{{ form.source.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Destination Station -->
+                    <div class="col-md-6">
+                        <label for="{{ form.destination.id_for_label }}" class="form-label">To:</label>
+                        {{ form.destination }}
+                        {% if form.destination.errors %}
+                        <div class="text-danger small">{{ form.destination.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="col-md-6">
+                        <label for="{{ form.date.id_for_label }}" class="form-label">Journey Date:</label>
+                        {{ form.date }}
+                        {% if form.date.errors %}
+                        <div class="text-danger small">{{ form.date.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-md-6 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 py-2">Search Bus</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% comment %} </div> {% endcomment %}
+
+  {% comment %} <footer class="footer">
+         <table>
+            <tr style="color:white;">
+                <th>
+                    <div class="tdlogo"><img style="width: 50px;" src="{% static 'img/logo.svg' %}" alt="logo.svg">
+                        <span>Yatra Bus</span></td>
+                    </div>
+                <th>Quick Links</td>
+                <th>Supports</td>
+                <th>Contacts</td>
+            </tr>
+            <tr>
+                <td>Convenient and safe travel with Yatra Bus .</td>
+                <td>Home</td>
+                <td>Help Center</td>
+                <td>Email: support@yatrabus.com</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Schedules</td>
+                <td>FAQ</td>
+                <td>Phone:123-4567</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bookings</td>
+                <td>Terms of Service</td>
+                <td>24/7 Customer Support</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Contact</td>
+                <td>Privacy Policy</td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="copyright">
+            <div class="line"></div>
+            <div class="copy">© 2025 Yatra Bus. All rights reserved.</div>
+        </div>
+    </footer> {% endcomment %}
+</body>
+
+</html>
+{% endblock body %} 

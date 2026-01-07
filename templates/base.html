@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} {% endblock title%}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="static/script.js"></script>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="any">
+<link rel="icon" type="img/svg+xml" href="{% static 'img/favicon.svg' %}">
+</head>
+
+<body>
+    {% comment %} <div class="bodycontainernav container-fluid"> <!-- Added container-fluid for basic padding -->
+        <div class="bodynav d-flex justify-content-between align-items-center"> <!-- Bootstrap Flexbox -->
+            <div class="logoname d-flex align-items-center">
+                <img src="{% static 'img/logo.svg' %}" alt="logo">
+                <span style="margin-left:10px;" class="fw-bold">Yatra Bus</span> <!-- fw-bold for 2026 bold style -->
+            </div>
+
+            <ul class="list-inline mb-0"> <!-- Removes bullets and bottom margin -->
+                <li class="list-inline-item"><a href="{% url 'home' %}" class="text-decoration-none">Home</a></li>
+                <li class="list-inline-item"><a href="" class="text-decoration-none">Schedule</a></li>
+                <li class="list-inline-item"><a href="{% url 'booking' %}" class="text-decoration-none">Booking</a></li>
+                <li class="list-inline-item"><a href="{% url 'about' %}" class="text-decoration-none">About</a></li>
+                <li class="list-inline-item"><a href="{% url 'contact' %}" class="text-decoration-none">Contact</a></li>
+                <button class="btn btn-primary nav-btn ms-3">Log in</button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#signupModal">
+                    SignUp
+                </button> <!-- ms-3 adds margin-start -->
+            </ul>
+        </div>
+    </div> {% endcomment %}
+
+    <div class="nav ">
+        <div class="logoname">
+            <img src="{% static 'img/logo.svg' %}" alt="logo.svg">
+            <span style="margin-left:10px;">Yatra Bus</span>
+        </div>
+        <div class="topcircle"></div>
+        <ul>
+            <a href="{% url 'home' %}">
+                <li>Home</li>
+            </a>
+            <a href="{% url 'schedule' %}">
+                <li>Schedule</li>
+            </a>
+            <a href="{% url 'booking' %}">
+                <li>Booking</li>
+            </a>
+            <a href="{% url 'contact' %}">
+                <li>Contact</li>
+            </a>
+            {% if user.is_authenticated %}
+            <li style="color: #35A7A0; font-weight: 600;">
+                👤 {{ user.first_name|default:user.username }}
+            </li>
+            <li>
+                <a href="{% url 'handleLogout' %}" class="nav-btn"
+                    style="text-decoration: none; background-color: #dc3545;">
+                    Logout
+                </a>
+            </li>
+            {% else %}
+            <li><button type="button" class="nav-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Log
+                    in</button></li>
+            <li><button type="button" class="nav-btn" style='background-color: #104564;' data-bs-toggle="modal"
+                    data-bs-target="#signupModal">
+                    SignUp
+                </button></li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+
+
+    <!-- SignUp Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalTitle">SignUp Here</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup/" method='post'>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Choose a unique username">
+                        </div>
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="text" class="form-control" id="fname" name="fname"
+                                placeholder="Enter Your First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" class="form-control" id="lname" name="lname"
+                                placeholder="Enter Your Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Choose a password</label>
+                            <input type="password" class="form-control" id="pass1" name="pass1"
+                                placeholder="Choose Your Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass2">Confirm Password</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2"
+                                placeholder="Enter your password again">
+                        </div>
+
+
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method='post'>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Choose a unique username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pass1">Enter a password</label>
+                            <input type="password" class="form-control" id="pass" name="pass"
+                                placeholder="Choose Your Password">
+                        </div>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    {%for message in messages%}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" style="z-index: 10;" role="alert">
+        <strong>Message</strong> {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor%}
+    {% block body%}
+    {% block container%}
+    {% endblock container %}
+    {% endblock body %}
+
+    <footer class="footer mt-5">
+        <table>
+            <tr style="color:white;">
+                <th>
+                    <div class="tdlogo"><img style="width: 50px;" src="{% static 'img/logo.svg' %}" alt="logo.svg">
+                        <span>Yatra Bus</span></td>
+                    </div>
+                <th>Quick Links</td>
+                <th>Supports</td>
+                <th>Contacts</td>
+            </tr>
+            <tr>
+                <td>Convenient and safe travel with Yatra Bus .</td>
+                <td>Home</td>
+                <td>Help Center</td>
+                <td>Email: support@yatrabus.com</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Schedules</td>
+                <td>FAQ</td>
+                <td>Phone:123-4567</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bookings</td>
+                <td>Terms of Service</td>
+                <td>24/7 Customer Support</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Contact</td>
+                <td>Privacy Policy</td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="copyright">
+            <div class="line"></div>
+            <div class="copy">© 2025 Yatra Bus. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

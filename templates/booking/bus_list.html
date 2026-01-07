@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search Results - Yatra Bus{% endblock title %}
+
+{% block body %}
+<style>
+    /* Targeting the container class to set its height to auto */
+    .container  {
+      height: 200vh;
+          gap: 0px;
+    }
+  </style>
+<div class="container mt-5">
+    <h2 class="mb-4">Available Buses</h2>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Route: {{ source.name }} to {{ dest.name }}</h5>
+            <p class="card-text">Date: {{ date }}</p>
+        </div>
+    </div>
+
+    {% if trips %}
+    {% for item in trips %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <h4 class="text-primary">{{ item.trip.departure_time|time:"H:i" }}</h4>
+                    <small class="text-muted">Departure</small>
+                </div>
+                <div class="col-md-4">
+                    <h5>{{ item.trip.bus.operator_name }}</h5>
+                    <div class="badge bg-info">{{ item.trip.bus.get_bus_type_display }}</div>
+                    <div>Bus No: {{ item.trip.bus.plate_number }}</div>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-success">Rs. {{ item.price }}</h4>
+                    <small class="text-muted">Per Seat</small>
+                </div>
+                <div class="col-md-2">
+                    <a href="{% url 'book_seat' item.trip.id item.start_node.station.id item.end_node.station.id %}"
+                        class="btn btn-primary w-100">Select Seats</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning">
+        No buses found for this route on the selected date.
+        <a href="{% url 'booking' %}" class="alert-link">Try another search</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}

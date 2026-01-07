@@ -1,0 +1,6 @@
+Testing URL: https://rc-epay.esewa.com.np/api/epay/main/v2/form
+  [Int] Amt: 100 -> FAILED (Merchant Key Error)
+  [Float] Amt: 100.00 -> FAILED (Merchant Key Error)
+Testing URL: https://uat.esewa.com.np/api/epay/main/v2/form
+  [Int] Error: HTTPSConnectionPool(host='uat.esewa.com.np', port=443): Max retries exceeded with url: /api/epay/main/v2/form (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000023B50CBB4D0>: Failed to resolve 'uat.esewa.com.np' ([Errno 11001] getaddrinfo failed)"))
+  [Float] Error: HTTPSConnectionPool(host='uat.esewa.com.np', port=443): Max retries exceeded with url: /api/epay/main/v2/form (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000023B50CBB890>: Failed to resolve 'uat.esewa.com.np' ([Errno 11001] getaddrinfo failed)"))
